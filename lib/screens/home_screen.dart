@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 31, 30, 30),
       body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
             Column(
@@ -139,20 +140,22 @@ class _HomeScreenState extends State<HomeScreen>
 
             // bottom navigation bar - floating over content
             Positioned(
-              bottom: 16,
+              bottom: 30,
               left: 0,
               right: 0,
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(60),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(60),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                       child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          borderRadius: BorderRadius.circular(60),
+                        ),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20.0,
                           vertical: 14.0,
