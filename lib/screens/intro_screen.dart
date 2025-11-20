@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nft/components/intro_image_carousel.dart';
+import 'package:nft/components/components.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:nft/resources/resources.dart';
 import 'package:nft/screens/home_screen.dart';
@@ -86,7 +86,7 @@ class IntroScreen extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                      
+
                           Image.asset(Assets.right, width: 14, height: 14),
                         ],
                       ),
