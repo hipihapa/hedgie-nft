@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nft/components/components.dart';
@@ -13,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _selectedNavIndex = 0;
 
   @override
   void initState() {
@@ -31,98 +34,181 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 31, 30, 30),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Top Collections',
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Top Collections',
+                            style: GoogleFonts.poppins(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'The best of NFT in one place',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'The best of NFT in one place',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
+
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withValues(alpha: 0.5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: Image.asset(
+                            Assets.menu,
+                            color: Colors.grey[300],
+                          ),
                         ),
                       ),
                     ],
                   ),
+                ),
 
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withValues(alpha: 0.5),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(14.0),
-                      child: Image.asset(Assets.menu, color: Colors.grey[300]),
-                    ),
+                // Scrollable tabs
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 10.0,
                   ),
-                ],
-              ),
+                  child: TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    indicator: const BoxDecoration(),
+                    dividerColor: Colors.transparent,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    tabs: [
+                      CustomTab(
+                        text: 'Recent',
+                        controller: _tabController,
+                        index: 0,
+                      ),
+                      CustomTab(
+                        text: 'Trending',
+                        controller: _tabController,
+                        index: 1,
+                      ),
+                      CustomTab(
+                        text: 'Popular',
+                        controller: _tabController,
+                        index: 2,
+                      ),
+                      CustomTab(
+                        text: 'Top',
+                        controller: _tabController,
+                        index: 3,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Tab content
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: const [
+                      TabContent(tabName: 'Recent'),
+                      TabContent(tabName: 'Trending'),
+                      TabContent(tabName: 'Popular'),
+                      TabContent(tabName: 'Top'),
+                    ],
+                  ),
+                ),
+              ],
             ),
 
-            // Scrollable tabs
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10.0,
-                vertical: 10.0,
-              ),
-              child: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                tabAlignment: TabAlignment.start,
-                indicator: const BoxDecoration(),
-                dividerColor: Colors.transparent,
-                labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                tabs: [
-                  CustomTab(
-                    text: 'Recent',
-                    controller: _tabController,
-                    index: 0,
+            // bottom navigation bar - floating over content
+            Positioned(
+              bottom: 16,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(60),
                   ),
-                  CustomTab(
-                    text: 'Trending',
-                    controller: _tabController,
-                    index: 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                          vertical: 14.0,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            NavItem(
+                              assetPath: Assets.home,
+                              label: 'Home',
+                              isSelected: _selectedNavIndex == 0,
+                              onTap: () {
+                                setState(() {
+                                  _selectedNavIndex = 0;
+                                });
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            NavItem(
+                              assetPath: Assets.compass,
+                              label: 'Explore',
+                              isSelected: _selectedNavIndex == 1,
+                              onTap: () {
+                                setState(() {
+                                  _selectedNavIndex = 1;
+                                });
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            NavItem(
+                              assetPath: Assets.heart,
+                              label: 'Favorites',
+                              isSelected: _selectedNavIndex == 2,
+                              onTap: () {
+                                setState(() {
+                                  _selectedNavIndex = 2;
+                                });
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            NavItem(
+                              assetPath: Assets.setting,
+                              label: 'Settings',
+                              isSelected: _selectedNavIndex == 3,
+                              onTap: () {
+                                setState(() {
+                                  _selectedNavIndex = 3;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  CustomTab(
-                    text: 'Popular',
-                    controller: _tabController,
-                    index: 2,
-                  ),
-                  CustomTab(
-                    text: 'Top', 
-                  controller: _tabController, 
-                  index: 3),
-                ],
-              ),
-            ),
-
-            // Tab content
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  TabContent(tabName: 'Recent'),
-                  TabContent(tabName: 'Trending'),
-                  TabContent(tabName: 'Popular'),
-                  TabContent(tabName: 'Top'),
-                ],
+                ),
               ),
             ),
           ],

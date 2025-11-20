@@ -71,8 +71,8 @@ class IntroScreen extends StatelessWidget {
                     thumb: const Icon(Icons.lock_outlined, color: Colors.white),
                     activeThumbColor: Colors.black,
                     activeTrackColor: Colors.grey[500],
-                    borderRadius: BorderRadius.circular(30),
-                    height: 60,
+                    borderRadius: BorderRadius.circular(60),
+                    height: 70,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 80.0, right: 35.0),
                       child: Row(
