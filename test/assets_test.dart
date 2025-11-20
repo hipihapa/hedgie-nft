@@ -11,6 +11,7 @@ void main() {
     expect(File(Assets.i1).existsSync(), isTrue);
     expect(File(Assets.i2).existsSync(), isTrue);
     expect(File(Assets.i3).existsSync(), isTrue);
+    expect(File(Assets.menu).existsSync(), isTrue);
     expect(File(Assets.right).existsSync(), isTrue);
   });
 }
